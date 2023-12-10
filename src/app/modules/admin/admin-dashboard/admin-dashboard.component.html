@@ -1,0 +1,57 @@
+<div class="container mt-5">
+  <div class="row justify-content-end mb-5">
+    <div class="col-auto">
+      <button type="button" (click)="logout()" class="btn btn-primary">
+        Logout
+      </button>
+    </div>
+  </div>
+  <div class="row justify-content-end mb-5">
+    <div class="col-auto">
+      <button class="btn btn-primary" (click)="onAddMovies()">Add Movie</button>
+    </div>
+  </div>
+  <div
+    class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4"
+  >
+    <ng-container *ngIf="movies && movies.length > 0; else addMoiveTemp">
+      <div *ngFor="let movie of movies; let i = index" class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <div class="card-text">
+              <div>
+                Cast Members :
+                <span>
+                  {{ movie.castMembers ? movie.castMembers.join(",") : "-" }}
+                </span>
+              </div>
+              <div>
+                Release Date :
+                <span>{{ movie.releaseDate }}</span>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button
+                type="button"
+                (click)="editMovie(movie.id)"
+                class="btn btn-warning"
+              >
+                <i class="bi bi-pencil-fill"></i> Edit
+              </button>
+              <button
+                type="button"
+                (click)="removeMovie(movie.id)"
+                class="btn btn-danger"
+              >
+                <i class="bi bi-trash-fill"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #addMoiveTemp> Not added any moives till now. </ng-template>
+  </div>
+</div>
+<!-- /.container -->

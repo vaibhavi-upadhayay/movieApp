@@ -1,0 +1,60 @@
+<div class="div-center">
+  <div class="content">
+    <div>
+      <p>Admin Credentials - User Name : Admin password : Admin@123</p>
+      <p>User Credentials - create new user or login with old credentials.</p>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="username">User Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          formControlName="userName"
+          required=""
+          name="username"
+          value=""
+        />
+        <p
+          class="text-danger"
+          *ngIf="
+            loginForm.get('userName')?.touched &&
+            loginForm.get('userName')?.hasError('required')
+          "
+        >
+          User Name is required.
+        </p>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example2">Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          id="form2Example2"
+          class="form-control"
+        />
+        <p
+          class="text-danger"
+          *ngIf="
+            loginForm.get('password')?.touched &&
+            loginForm.get('password')?.hasError('required')
+          "
+        >
+          Password is required.
+        </p>
+        <p *ngIf="invalidPassword" class="text-danger">
+          Please enter valid Password.
+        </p>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block mb-4">
+        Login
+      </button>
+    </form>
+  </div>
+</div>

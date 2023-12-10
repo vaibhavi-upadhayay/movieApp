@@ -1,0 +1,103 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between mb-5">
+    <h2>{{ "Welcome " + this.currentUser?.userName }}</h2>
+    <div>
+      <button type="button" (click)="logout()" class="btn btn-primary">
+        Logout
+      </button>
+    </div>
+  </div>
+  <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+    <ng-container *ngIf="movies && movies.length > 0; else noMoiveTemp">
+      <div *ngFor="let movie of movies; let i = index" class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <div class="card-text">
+              <div class="mb-3">
+                Cast Members :
+                <span>
+                  {{ movie.castMembers ? movie.castMembers.join(",") : "-" }}
+                </span>
+              </div>
+              <div class="mb-3">
+                Release Date :
+                <span>{{ movie.releaseDate }}</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button
+                *ngIf="
+                  movie.likes && movie.likes.includes(currentUser.userName);
+                  else notLikedYet
+                "
+                type="button"
+                class="btn btn-primary"
+              >
+                <i class="bi bi-hand-thumbs-up"></i>
+
+                {{ movie.likes ? movie.likes.length : 0 }}
+                <span> Liked! </span>
+              </button>
+              <ng-template #notLikedYet>
+                <button
+                  type="button"
+                  (click)="likeMovie(movie.id)"
+                  class="btn btn-primary"
+                >
+                  <i class="bi bi-hand-thumbs-up"></i>
+
+                  {{ movie.likes ? movie.likes.length : 0 }}
+                  <span> Like </span>
+                </button>
+              </ng-template>
+            </div>
+
+            <div class="mb-3">
+              <form class="mb-3">
+                <input
+                  type="text"
+                  #input
+                  class="form-control mb-3"
+                  placeholder="Comment..."
+                  aria-label="Comment"
+                  aria-describedby="basic-addon2"
+                />
+
+                <button
+                  type="button"
+                  (click)="commentOnMovie(input, movie.id)"
+                  class="btn btn-primary"
+                >
+                  <i class="bi bi-chat"></i> Comment
+                </button>
+              </form>
+              <div
+                class="mt-3 mb-3 scroll-container"
+                *ngIf="movie.comments && movie.comments.length"
+              >
+                <div *ngFor="let comment of movie.comments">
+                  <span>
+                    {{ comment.userName }}
+                  </span>
+                  <p>{{ comment.comment }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="rating">Rate this movie:</label>
+              <ngx-star-rating
+                [formControl]="movie.ratingControl"
+                (click)="rateMovie(movie.id)"
+                [id]="'rating' + i"
+              ></ngx-star-rating>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noMoiveTemp> Not added any moives till now. </ng-template>
+  </div>
+</div>
+<!-- /.container -->
